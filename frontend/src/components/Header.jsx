@@ -22,7 +22,7 @@ const Header = () => {
       dispatch(logout());
       navigate("/login");
     } catch (error) {
-      console.log(err)
+      console.log(error)
     }
   };
 

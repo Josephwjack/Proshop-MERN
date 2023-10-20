@@ -17,7 +17,7 @@ const RegisterScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -49,10 +49,10 @@ const RegisterScreen = () => {
 
   return (
     <FormContainer>
-      <h1>Sign Up</h1>
+      <h1>Register</h1>
 
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='name' className='my-3'>
+        <Form.Group controlId='name' className='my-2'>
           <Form.Label>Name</Form.Label>
           <Form.Control
             type='text'
@@ -62,7 +62,7 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='email' className='my-3'>
+        <Form.Group controlId='email' className='my-2'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type='email'
@@ -72,7 +72,7 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='password' className='my-3'>
+        <Form.Group controlId='password' className='my-2'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
@@ -92,12 +92,7 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button
-          type='submit'
-          variant='primary'
-          className='mt-2'
-          disabled={isLoading}
-        >
+        <Button type='submit' variant='primary' disabled={isLoading}>
           Register
         </Button>
 
