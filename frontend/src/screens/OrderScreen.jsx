@@ -41,14 +41,14 @@ const OrderScreen = () => {
   } = useGetPaypalClientIdQuery();
 
   const { userInfo } = useSelector((state) => state.auth);
-
+  // POSSIBLY CHANGE BACK TO client-id //
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
       const loadPaypalScript = async () => {
         paypalDispatch({
           type: "resetOptions",
           value: {
-            "client-id": paypal.clientId,
+            'client-id': paypal.clientId,
             currency: "USD",
           },
         });
@@ -69,7 +69,7 @@ const OrderScreen = () => {
         refetch();
         toast.success("Payment successful");
       } catch (err) {
-        toast.error(err?.data?.message || err.message);
+        toast.error(err?.data?.message || err.error);
       }
     });
   }
@@ -90,7 +90,7 @@ const OrderScreen = () => {
         purchase_units: [
           {
             amount: {
-              value: order.totalPrice
+              value: order.totalPrice,
             },
           },
         ],
@@ -103,7 +103,7 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error.data.message}</Message>
+    <Message variant='danger'>{error}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
