@@ -1,24 +1,16 @@
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
-  Button,
-  Card,
-} from "react-bootstrap";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import {
-  useGetOrderDetailsQuery,
-  usePayOrderMutation,
-  useGetPaypalClientIdQuery,
   useDeliverOrderMutation,
+  useGetOrderDetailsQuery,
+  useGetPaypalClientIdQuery,
+  usePayOrderMutation,
 } from "../slices/ordersApiSlice";
 
 const OrderScreen = () => {
@@ -112,8 +104,8 @@ const OrderScreen = () => {
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
-  }
-  
+  };
+
   return isLoading ? (
     <Loader />
   ) : error ? (
