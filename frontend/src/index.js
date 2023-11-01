@@ -36,6 +36,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/page/:pageNumber' element={<HomeScreen />} />
       <Route path='/product/:id' element={<ProductScreen />} />
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/login' element={<LoginScreen />} />
@@ -49,14 +50,13 @@ const router = createBrowserRouter(
         <Route path='/order/:id' element={<OrderScreen />} />
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
-       {/* Admin Routes */}
-       <Route path='' element={<AdminRoute />}>
+      {/* Admin Routes */}
+      <Route path='' element={<AdminRoute />}>
         <Route path='/admin/orderList' element={<OrderListScreen />} />
         <Route path='/admin/productList' element={<ProductListScreen />} />
         <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
         <Route path='/admin/userList' element={<UserListScreen />} />
         <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
-        
       </Route>
     </Route>
   )
@@ -66,7 +66,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
+      <PayPalScriptProvider deferLoading={false}>
         <RouterProvider router={router} />
       </PayPalScriptProvider>
     </Provider>

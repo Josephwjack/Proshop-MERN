@@ -28,14 +28,14 @@ const CartScreen = () => {
     dispatch(removeFromCart(id));
   };
 
-  const checkoutHandler =( )=> {
-    navigate('/login?redirect=shipping');
-  }
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
+  };
 
   return (
     <Row>
       <Col md={8}>
-        <h1 style={{ marginBottom: "20px" }}>Shop</h1>
+        <h1 style={{ marginBottom: "20px" }}>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty <Link to='/'>Go Back</Link>
@@ -100,7 +100,7 @@ const CartScreen = () => {
                 type='button'
                 className='btn-block'
                 disabled={cartItems.length === 0}
-                onClick= { checkoutHandler }
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
@@ -35,10 +35,11 @@ const PlaceOrderScreen = () => {
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
       }).unwrap();
+      console.log(res);
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
-    } catch (error) {
-      toast.error(error);
+    } catch (err) {
+      toast.error(err);
     }
   };
 
@@ -89,7 +90,7 @@ const PlaceOrderScreen = () => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          {item.qty} x ${item.price} = ${(item.qty * (item.price * 100)) / 100}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -138,7 +139,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type='button'
                   className='btn-block'
-                  disabled={cart.cartItems.length === 0}
+                  disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >
                   Place order

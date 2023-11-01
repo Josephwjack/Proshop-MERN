@@ -28,6 +28,8 @@ const OrderScreen = () => {
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   const {
@@ -36,15 +38,14 @@ const OrderScreen = () => {
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
 
-  const { userInfo } = useSelector((state) => state.auth);
   // POSSIBLY CHANGE BACK TO client-id //
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-      const loadPayPalScript = async () => {
+      const loadPaypalScript = async () => {
         paypalDispatch({
           type: "resetOptions",
           value: {
-            "client-id": paypal.clientId,
+            clientId: paypal.clientId,
             currency: "USD",
           },
         });
@@ -52,7 +53,7 @@ const OrderScreen = () => {
       };
       if (order && !order.isPaid) {
         if (!window.paypal) {
-          loadPayPalScript();
+          loadPaypalScript();
         }
       }
     }
@@ -70,11 +71,11 @@ const OrderScreen = () => {
     });
   }
 
-  async function onApproveTest() {
-    await payOrder({ orderId, details: { payer: {} } });
-    refetch();
-    toast.success("Payment successful");
-  }
+  // async function onApproveTest() {
+  //   await payOrder({ orderId, details: { payer: {} } });
+  //   refetch();
+  //   toast.success("Payment successful");
+  // }
 
   function onError(err) {
     toast.error(err.message);
@@ -91,25 +92,20 @@ const OrderScreen = () => {
           },
         ],
       })
-      .then((orderId) => {
-        return orderId;
+      .then((orderID) => {
+        return orderID;
       });
   }
 
-  const deliverOrderHandler = async () => {
-    try {
+  const deliverHandler = async () => {
       await deliverOrder({ orderId });
       refetch();
-      toast.success("Order delivered");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
   };
 
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error}</Message>
+    <Message variant='danger'>{error.data.message}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
@@ -122,8 +118,8 @@ const OrderScreen = () => {
                 <strong>Name: </strong> {order.user.name}
               </p>
               <p>
-                <strong>Email: </strong>
-                {order.user.email}
+                <strong>Email: </strong>{' '}
+                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               <p>
                 <strong>Address: </strong>
@@ -206,12 +202,7 @@ const OrderScreen = () => {
                     <Loader />
                   ) : (
                     <div>
-                      {/* <Button
-                        onClick={onApproveTest}
-                        style={{ marginBottom: "10px" }}
-                      >
-                        Test Pay Order
-                      </Button> */}
+                      
                       <div>
                         <PayPalButtons
                           createOrder={createOrder}
@@ -223,7 +214,9 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
+
               {loadingDeliver && <Loader />}
+
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
@@ -232,7 +225,7 @@ const OrderScreen = () => {
                     <Button
                       type='button'
                       className='btn btn-block'
-                      onClick={deliverOrderHandler}
+                      onClick={deliverHandler}
                     >
                       Mark As Delivered
                     </Button>
