@@ -35,7 +35,15 @@ const PlaceOrderScreen = () => {
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
       }).unwrap();
-      console.log(res);
+    //   if (res && res._id) {
+    //     dispatch(clearCartItems());
+    //     navigate(`/order/${res._id}`);
+    //   } else {
+    //     throw new Error('Order creation failed');
+    //   }
+    // } catch (err) {
+    //   toast.error(err);
+    // }
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (err) {

@@ -45,7 +45,7 @@ const OrderScreen = () => {
         paypalDispatch({
           type: "resetOptions",
           value: {
-            clientId: paypal.clientId,
+            'client-id': paypal.clientId,
             currency: "USD",
           },
         });
@@ -92,8 +92,8 @@ const OrderScreen = () => {
           },
         ],
       })
-      .then((orderID) => {
-        return orderID;
+      .then((orderId) => {
+        return orderId;
       });
   }
 
